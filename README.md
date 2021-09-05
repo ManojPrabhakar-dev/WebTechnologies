@@ -1,2 +1,3 @@
-# WebTechnologies
-This repository is to maintain various web technology projects like Electron, React Native, Web apps etc
+# ProShop MERN Project
+
+E-Commerce Website with MERN(MongoDB,ExpressJS,REACT,NODE),payment etc
