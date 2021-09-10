@@ -13,10 +13,10 @@ const ProductScreen = ({ match }) => {
         Go Back
       </Link>
       <Row>
-        <Col md={5}>
+        <Col md={6}>
           <Image src={product.image} alt={product.name} fluid></Image>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <h3>{product.name}</h3>
           <ListGroup>
             <ListGroup.Item>
@@ -28,6 +28,39 @@ const ProductScreen = ({ match }) => {
             <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
             <ListGroup.Item>Description: {product.description}</ListGroup.Item>
           </ListGroup>
+        </Col>
+        <Col md={3}>
+          <Card className="rounded">
+            <ListGroup>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Price :</Col>
+                  <Col>
+                    <strong>${product.price}</strong>
+                  </Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Status :</Col>
+                  <Col>
+                    {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                  </Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Button
+                    className="btn-block"
+                    type="button"
+                    disabled={product.countInStock === 0}
+                  >
+                    Add to Cart
+                  </Button>
+                </Row>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
         </Col>
       </Row>
     </>
