@@ -21,7 +21,7 @@ const ProductScreen = ({ history, match }) => {
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails; //TODO
+  const { loading, error, product } = productDetails;
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
@@ -81,7 +81,7 @@ const ProductScreen = ({ history, match }) => {
                   <Row>
                     <Col>Status</Col>
                     <Col>
-                      {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                      {product.stockInCount > 0 ? "In Stock" : "Out Of Stock"}
                     </Col>
                   </Row>
                 </ListGroup.Item>
