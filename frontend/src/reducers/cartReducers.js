@@ -5,16 +5,18 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
     case CART_ADD_ITEM:
       const item = action.payload;
 
-      const existItem = state.cartItems.map((x) => x.product === item.product);
+      const existItem = state.cartItems.find((x) => x.product === item.product);
 
       if (existItem) {
+        console.log("exist item : " + existItem);
         return {
-          ...state,
+          ...state, //TODO
           cartItems: state.cartItems.map((x) =>
             x.product === item.product ? item : x
           ),
         };
       } else {
+        console.log("item : " + item);
         return {
           ...state,
           cartItems: [...state.cartItems, item],
@@ -26,6 +28,6 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
         cartItems: state.cartItems.filter((x) => x.product !== action.payload),
       };
     default:
-      break;
+      return state;
   }
 };
