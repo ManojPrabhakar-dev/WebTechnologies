@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Table, Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
 // import { listMyOrders } from '../actions/orderActions'
 // import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
@@ -22,8 +22,8 @@ const ProfileScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  // const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  // const { success } = userUpdateProfile;
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   // const orderListMy = useSelector((state) => state.orderListMy)
   // const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
@@ -32,23 +32,25 @@ const ProfileScreen = ({ location, history }) => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      if (!user || !user.name) {
+      if (!user || !user.name || success) {
         // dispatch({ type: USER_UPDATE_PROFILE_RESET })
         dispatch(getUserDetails("profile"));
+        console.log("use_effect");
         // dispatch(listMyOrders())
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, userInfo, user]);
+  }, [dispatch, history, userInfo, user, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log("submit handler");
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      //dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 
@@ -57,13 +59,14 @@ const ProfileScreen = ({ location, history }) => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
-        {/* {success && <Message variant="success">Profile Updated</Message>} */}
+        {}
+        {success && <Message variant="success">Profile Updated</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
+          <Form>
             <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -104,13 +107,13 @@ const ProfileScreen = ({ location, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" onClick={submitHandler}>
               Update
             </Button>
           </Form>
         )}
       </Col>
-      <Col md={9}>
+      {/* <Col md={9}>
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
@@ -123,7 +126,7 @@ const ProfileScreen = ({ location, history }) => {
             </tr>
           </thead>
         </Table>
-      </Col>
+      </Col> */}
     </Row>
   );
 };
